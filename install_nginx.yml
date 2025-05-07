@@ -1,0 +1,26 @@
+---
+- name: Install and configure NGINX
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Update apt
+      apt:
+        update_cache: yes
+
+    - name: Install NGINX
+      apt:
+        name: nginx
+        state: present
+
+    - name: Start and enable NGINX
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Replace default index.html
+      copy:
+        content: "Hello from Ansible + CFT setup!"
+        dest: /var/www/html/index.html
+
